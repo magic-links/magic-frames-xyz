@@ -47,7 +47,7 @@ export default async function Home({ searchParams }: NextServerPageProps) {
       >
         <FrameImage>
           <div tw="flex flex-col">
-            <img width={573} height={300} src={imageUrl} alt="Image" />
+            {/* <img width={573} height={300} src={imageUrl} alt="Image" /> */}
             <div tw="flex">
               This is slide {state.pageIndex + 1} / {totalPages}
             </div>

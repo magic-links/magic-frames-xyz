@@ -14,6 +14,7 @@ import { createDebugUrl } from "../debug";
 import { ReactNode } from "react";
 import DaoContractFrame from "./_frames/daoContractAddress";
 import DaoProposalFrame from "./_frames/daoContractProposalId";
+import DaoPreviewFrame from "./_frames/daoPreview";
 
 export type State = {
   pageIndex: number;
@@ -61,6 +62,7 @@ const reducer: FrameReducer<State> = (state, action) => {
 const frameComponents = {
   DAO_CONTRACT: DaoContractFrame,
   DAO_PROPOSAL: DaoProposalFrame,
+  DAO_PREVIEW: DaoPreviewFrame
 };
 const renderImage = (state: State): ReactNode => {
   const FrameComponent =
@@ -109,9 +111,9 @@ const renderButton = (state: State): any => {
 export default async function Home({ searchParams }: NextServerPageProps) {
   const url = currentURL("/wizard");
   const previousFrame = getPreviousFrame<State>(searchParams);
-  console.log(previousFrame);
   const [state] = useFramesReducer<State>(reducer, initialState, previousFrame);
   // const imageUrl = `https://picsum.photos/seed/frames.js-${state.pageIndex}/1146/600`;
+  console.log('state', state);
 
   // then, when done, return next frame
 

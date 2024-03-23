@@ -8,8 +8,7 @@ import { privateKeyToAccount } from 'viem/accounts';
 
 import abi from '../../abis/abi.json';
 
-// TODO: replace with a private key from a wallet that has funds
-const privateKey = "0xREPLACEME";
+const privateKey = process.env.PRIVATE_KEY as string
 const contractABI = abi as any;
 const contractAddress = '0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9';
  

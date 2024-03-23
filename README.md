@@ -31,16 +31,8 @@ this is a Frame to vote + reason on DAO X
 - 3 buttons: yes, no, abstain
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Partners we're aiming for
+- Base
+- Pinata (use analytics, use Frame API)
+- frames.js 
+- Bountycaster - Build something cool with Scaffoldeth.io this week. Tudor used it to build the onchain contract.

@@ -14,6 +14,7 @@ import { createDebugUrl } from "../debug";
 import { ReactNode } from "react";
 import DaoContractFrame from "./_frames/daoContractAddress";
 import DaoProposalFrame from "./_frames/daoContractProposalId";
+import DaoProposalSummaryFrame from "./_frames/daoProposalSummary";
 import DaoPreviewFrame from "./_frames/daoPreview";
 
 export type State = {
@@ -29,6 +30,8 @@ const initialState: State = { pageIndex: 0, templateOption: "HOME" };
 const reducer: FrameReducer<State> = (state, action) => {
   const buttonIndex = action.postBody?.untrustedData.buttonIndex;
   const inputText = action.postBody?.untrustedData.inputText;
+
+  console.log(state)
 
   switch (buttonIndex) {
     case 1:
@@ -46,9 +49,15 @@ const reducer: FrameReducer<State> = (state, action) => {
         case "DAO_PROPOSAL":
           return {
             ...state,
-            templateOption: "DAO_PREVIEW",
+            templateOption: "DAO_PROPOSAL_SUMMARY",
             proposalId: inputText,
           };
+
+          case "DAO_PROPOSAL_SUMMARY":
+            return {
+              ...state,
+              templateOption: "DAO_PREVIEW",
+            };
 
         default:
           return { ...state, templateOption: "HOME" };
@@ -62,27 +71,19 @@ const reducer: FrameReducer<State> = (state, action) => {
 const frameComponents = {
   DAO_CONTRACT: DaoContractFrame,
   DAO_PROPOSAL: DaoProposalFrame,
+  DAO_PROPOSAL_SUMMARY: DaoProposalSummaryFrame,
   DAO_PREVIEW: DaoPreviewFrame
 };
-const renderImage = (state: State): ReactNode => {
+const renderImage = (state: State, previousFrame): ReactNode => {
   const FrameComponent =
     frameComponents[state.templateOption as keyof typeof frameComponents];
   if (FrameComponent) {
-    return FrameComponent.frameImage(state);
+    return FrameComponent.frameImage(state, previousFrame);
   }
   return (
     <div tw="flex flex-col">
       {/* <img width={573} height={300} src={imageUrl} alt="Image" /> */}
-      <div tw="flex">Select you template to start building spells!</div>
-      <div tw="flex flex-col ">
-        <div>1. Dao</div>
-        <div>2. Dao</div>
-        <div>3. Dao</div>
-        <div>4. Dao</div>
-      </div>
-      <div tw="flex">
-        This is slide {state.pageIndex + 1} / {totalPages}
-      </div>
+      <div tw="flex">Select your Spell template to start building!</div>
     </div>
   );
 };
@@ -114,6 +115,7 @@ export default async function Home({ searchParams }: NextServerPageProps) {
   const [state] = useFramesReducer<State>(reducer, initialState, previousFrame);
   // const imageUrl = `https://picsum.photos/seed/frames.js-${state.pageIndex}/1146/600`;
   console.log('state', state);
+  console.log(previousFrame);
 
   // then, when done, return next frame
 
@@ -126,7 +128,7 @@ export default async function Home({ searchParams }: NextServerPageProps) {
         state={state}
         previousFrame={previousFrame}
       >
-        <FrameImage>{renderImage(state)}</FrameImage>
+        <FrameImage>{renderImage(state, previousFrame)}</FrameImage>
         {renderInput(state)}
         {renderButton(state)}
       </FrameContainer>

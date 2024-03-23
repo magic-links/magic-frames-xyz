@@ -9,8 +9,33 @@ import {
   getContract,
   http,
 } from "viem";
-import { optimism } from "viem/chains";
 import { daoProposalABI } from "./contracts/dao-proposal";
+
+// TODO to be replaced with actuall storage function
+// const getSpellById = (id: number) => {
+//   return {
+//     id: 1,
+//     name: 'Fireball',
+//     content: {
+//       contractAddress: "0x789fc99093b09ad01c34dc7251d0c89ce743e5a4",
+//       proposalId: "21881347407562908848280051025758535553780110598432331587570488445729767071232",
+//       chainId: 42161,
+//       proposalSummary: "Vote for the latest Magic proposal!"
+//     }
+//   }
+// }
+const getSpellById = (id: number) => {
+  return {
+    id: 1,
+    name: 'Fireball',
+    content: {
+      contractAddress: "0x94032F9dCDDe83CC748D588018E90a26bD8b57Ad",
+      proposalId: "44514336826816624890263576348868023866970862628880407364570922010546196358859",
+      chainId: 8453,
+      proposalSummary: "Vote for the latest Magic proposal!"
+    }
+  }
+}
 
 export async function POST(
   req: NextRequest
@@ -19,40 +44,47 @@ export async function POST(
 
   const frameMessage = await getFrameMessage(json);
 
+  const urlParse = json.untrustedData.url.split("/");
+  const spellId = urlParse[(urlParse.length-2)];
+
+  const spellDetails = getSpellById(spellId);
+
   if (!frameMessage) {
     throw new Error("No frame message");
   }
 
-  // Get current storage price
-  const units = 1n;
+  //console.log(json)
+
+  const getVoteSupport = (buttonIndex) => {
+    switch (buttonIndex) {
+      case 1:
+        return 1
+      case 2:
+        return 0
+      case 3:
+        return 2
+    };
+  };
+
+  var voteSupport = getVoteSupport(frameMessage.buttonIndex);
+
+  const proposalId = spellDetails.content.proposalId
+  const daoContractAddress = spellDetails.content.contractAddress
 
   const calldata = encodeFunctionData({
     abi: daoProposalABI,
     functionName: "castVote",
-    args: [BigInt(frameMessage.requesterFid), units],
+    args: [BigInt(proposalId), voteSupport],
   });
-
-  const publicClient = createPublicClient({
-    chain: optimism,
-    transport: http(),
-  });
-
-  const storageRegistry = getContract({
-    address: STORAGE_REGISTRY_ADDRESS,
-    abi: storageRegistryABI,
-    publicClient,
-  });
-
-  const unitPrice = await storageRegistry.read.price([units]);
 
   return NextResponse.json({
-    chainId: "eip155:10", // OP Mainnet 10
+    chainId: "eip155:8453", // Arbitrum Mainnet 42161, Base Mainnet 8453
     method: "eth_sendTransaction",
     params: {
-      abi: storageRegistryABI as Abi,
-      to: STORAGE_REGISTRY_ADDRESS,
+      abi: daoProposalABI as Abi,
+      to: daoContractAddress,
       data: calldata,
-      value: unitPrice.toString(),
+      value: 0,
     },
   });
 }

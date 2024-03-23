@@ -1,40 +1,46 @@
-# Frames.js Starter Kit
+# Magic Frames
 
-This is a boilerplate repo to get started quickly with `frames.js`
+A frame that creates frames that executes onchain actions.
 
-## Quickstart
+- 36h hackathon
+- pause ethical dilemas, lol
 
-If running from the frames.js repository itself:
+Partners: https://ethglobal.com/events/frameworks/prizes
 
-- Run `yarn` from the repository root
-- Run `cd examples/framesjs-starter`
 
-1. Install dependencies `yarn install`
+Ideas dump:
 
-2. Run the dev server `yarn dev`
+3 ways to mint
+1. frame txns
+2. proxy contract outside warpcast
+3. proxy contract inside warpcast, paying with warps
 
-3. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-4. Edit `app/page.tsx`
+🧙‍♂️ wizards create spells that people casts 🪄
 
-5. Visit [http://localhost:3000/debug](http://localhost:3000/debug) to debug your frame.
 
-6. (Optional) To use a real signer (costs warps), copy `.env.sample` to `.env` and fill in the env variables following the comments provided
+# example.com/wizard/
+1. enter url to prop
+2. ???
 
-## Docs, Questions and Help
 
-- [Frames.js Documentation](https://framesjs.org)
-- [Awesome frames](https://github.com/davidfurlong/awesome-frames?tab=readme-ov-file)
-- Join the [/frames-dev](https://warpcast.com/~/channel/frames-devs) channel on Farcaster to ask questions
+# example.com/spell/123
+this is a Frame to vote + reason on DAO X
 
-## If you get stuck or have feedback, [Message @df please!](https://warpcast.com/df)
+- text input for reason
+- 3 buttons: yes, no, abstain
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy
 
-```bash
-vercel
-```
 
-more deployment links coming soon, PRs welcome!
+
+
+
+
+
+
+
+
+
+
+

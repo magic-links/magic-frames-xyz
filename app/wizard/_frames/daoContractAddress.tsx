@@ -12,7 +12,9 @@ const DaoFrameImage = (state: State, previousFrame): ReactNode => {
 };
 
 const DaoInput = <FrameInput text="Enter Contract Address"></FrameInput>;
-const DaoButton = <FrameButton>OK</FrameButton>;
+const DaoButton = (state: State) => {
+  return <FrameButton>OK</FrameButton>;
+}
 
 const DaoContractFrame = {
   frameImage: DaoFrameImage,

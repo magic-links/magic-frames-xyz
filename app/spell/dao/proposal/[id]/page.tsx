@@ -11,7 +11,7 @@ import {
 import Link from "next/link";
 import { currentURL } from "../../../../utils";
 import { DEFAULT_DEBUGGER_HUB_URL, createDebugUrl } from "../../../../debug";
-//import { getSpellById } from "../../../../storage";
+import { getSpellById } from "../../../../storage.onchain";
 
 type State = {
   pageIndex: number;
@@ -33,20 +33,6 @@ const reducer: FrameReducer<State> = (state, action) => {
   };
 };
 
-// TODO to be replaced with actuall storage function
-const getSpellById = (id: number) => {
-  return {
-    id: 1,
-    name: 'Fireball',
-    content: {
-      contractAddress: "0x94032F9dCDDe83CC748D588018E90a26bD8b57Ad",
-      proposalId: "2734038565809152965325796826027147483950341642058568409179168635425560537011",
-      chainId: 8453,
-      proposalSummary: "Vote for the latest Magic proposal!"
-    }
-  }
-}
-
 // This is a react server component only
 export default async function Home({ params, searchParams }: NextServerPageProps) {
   const url = currentURL(`/spell/dao/proposal/${params.id}`);
@@ -54,7 +40,8 @@ export default async function Home({ params, searchParams }: NextServerPageProps
   const [state] = useFramesReducer<State>(reducer, initialState, previousFrame);
   const imageUrl = `https://picsum.photos/seed/frames.js-${state.pageIndex}/1146/600`;
 
-  const spellDetails = getSpellById(params.id);
+  const spellDetails = await getSpellById(params.id);
+  console.log({params, spellDetails});
 
   const frameMessage = await getFrameMessage(previousFrame.postBody, {
     hubHttpUrl: DEFAULT_DEBUGGER_HUB_URL,

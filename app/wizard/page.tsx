@@ -16,6 +16,10 @@ import DaoContractFrame from "./_frames/daoContractAddress";
 import DaoProposalFrame from "./_frames/daoContractProposalId";
 import DaoProposalSummaryFrame from "./_frames/daoProposalSummary";
 import DaoPreviewFrame from "./_frames/daoPreview";
+import DaoSuccessFrame from "./_frames/daoSuccess";
+import DaoSuccess from "./_frames/daoSuccess";
+
+import { storeSpell, Spell } from "../storage.onchain";
 
 export type State = {
   pageIndex: number;
@@ -53,11 +57,17 @@ const reducer: FrameReducer<State> = (state, action) => {
             proposalId: inputText,
           };
 
-          case "DAO_PROPOSAL_SUMMARY":
-            return {
-              ...state,
-              templateOption: "DAO_PREVIEW",
-            };
+        case "DAO_PROPOSAL_SUMMARY":
+          return {
+            ...state,
+            templateOption: "DAO_PREVIEW",
+          };
+
+        case "DAO_PREVIEW":
+          return {
+            ...state,
+            templateOption: "DAO_SUCCESS",
+          };          
 
         default:
           return { ...state, templateOption: "HOME" };
@@ -72,7 +82,8 @@ const frameComponents = {
   DAO_CONTRACT: DaoContractFrame,
   DAO_PROPOSAL: DaoProposalFrame,
   DAO_PROPOSAL_SUMMARY: DaoProposalSummaryFrame,
-  DAO_PREVIEW: DaoPreviewFrame
+  DAO_PREVIEW: DaoPreviewFrame,
+  DAO_SUCCESS: DaoSuccess
 };
 const renderImage = (state: State, previousFrame): ReactNode => {
   const FrameComponent =
@@ -98,7 +109,7 @@ const renderButton = (state: State): any => {
   const FrameComponent =
     frameComponents[state.templateOption as keyof typeof frameComponents];
   if (FrameComponent) {
-    return FrameComponent.frameButton;
+    return FrameComponent.frameButton(state);
   }
   return [
     <FrameButton key="btn1">DAO</FrameButton>,
@@ -114,10 +125,24 @@ export default async function Home({ searchParams }: NextServerPageProps) {
   const previousFrame = getPreviousFrame<State>(searchParams);
   const [state] = useFramesReducer<State>(reducer, initialState, previousFrame);
   // const imageUrl = `https://picsum.photos/seed/frames.js-${state.pageIndex}/1146/600`;
-  console.log('state', state);
-  console.log(previousFrame);
+  console.log({state, previousFrame});
 
-  // then, when done, return next frame
+  let spellUrl = undefined;
+  if (state.templateOption === "DAO_SUCCESS") {
+    const spell: Spell = {
+        id: 123,
+        name: "bar",
+        content: {
+          contractAddress: "0x94032F9dCDDe83CC748D588018E90a26bD8b57Ad",
+          proposalId: "2734038565809152965325796826027147483950341642058568409179168635425560537011",
+          chainId: 8453,
+          proposalSummary: "best proposal this week!"
+        }
+    };
+
+    const key = await storeSpell(spell);
+    spellUrl = `${process.env.NEXT_PUBLIC_HOST}/spell/dao/proposal/${key}`;
+  }
 
   return (
     <div>
@@ -128,9 +153,9 @@ export default async function Home({ searchParams }: NextServerPageProps) {
         state={state}
         previousFrame={previousFrame}
       >
-        <FrameImage>{renderImage(state, previousFrame)}</FrameImage>
+        <FrameImage>{renderImage({...state, spellUrl}, previousFrame)}</FrameImage>
         {renderInput(state)}
-        {renderButton(state)}
+        {renderButton({...state, spellUrl})}
       </FrameContainer>
     </div>
   );

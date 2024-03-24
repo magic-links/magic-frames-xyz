@@ -14,7 +14,9 @@ const DaoFrameImage = (state: State, previousFrame): ReactNode => {
 };
 
 const DaoInput = null
-const DaoButton = <FrameButton action="post_redirect">Create</FrameButton>;
+const DaoButton = (state: State) => {
+  return <FrameButton action="post">Create</FrameButton>;
+}
 
 const DaoPreviewFrame = {
   frameImage: DaoFrameImage,

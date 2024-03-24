@@ -8,13 +8,19 @@ import abi from './abis/abi.json';
 
 const privateKey = process.env.PRIVATE_KEY as `0x{string}`;
 const contractABI = abi as any;
-const contractAddress = '0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9';
+
+const contractAddress = process.env.STORAGE_CONTRACT_ADDRESS as `0x${string}`;
 
 
 export type Spell = {
   id: number;
   name: string;
-  description: string;
+  content: {
+    contractAddress: string;
+    proposalId: string;
+    chainId: number;
+    proposalSummary: string;
+  }
 }
 
 export const getSpellById = async (id: string): Promise<Spell> => {
@@ -29,10 +35,9 @@ export const getSpellById = async (id: string): Promise<Spell> => {
     abi: contractABI,
     functionName: 'getValue',
     args: [id],
-  });
+  }) as string;
 
-
-  return result as Spell;
+  return JSON.parse(result) as Spell;
 }
 
 export const storeSpell = async (spell: Spell): Promise<string> => {
@@ -80,7 +85,7 @@ export const storeSpell = async (spell: Spell): Promise<string> => {
     key = event.args.key;
   } else {
     throw new Error('No event found');
-  }
+  } 
 
   return key;
 }

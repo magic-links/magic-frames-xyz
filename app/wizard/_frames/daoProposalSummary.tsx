@@ -6,20 +6,18 @@ const DaoFrameImage = (state: State, previousFrame): ReactNode => {
   return (
     <div tw="flex flex-col">
       {/* <img width={573} height={300} src={imageUrl} alt="Image" /> */}
-      <div tw="flex">DAO Contract: {state.contractAddress}</div>
-      <div tw="flex">Proposal ID: {state.proposalId}</div>
-      <div tw="flex">Proposal Summary: {previousFrame.postBody.untrustedData.inputText}</div>
+      <div tw="flex">Enter the Proposal Summary</div>
     </div>
   );
 };
 
-const DaoInput = null
-const DaoButton = <FrameButton action="post_redirect">Create</FrameButton>;
+const DaoInput = <FrameInput text="Enter Proposal Summary"></FrameInput>;
+const DaoButton = <FrameButton>OK</FrameButton>;
 
-const DaoPreviewFrame = {
+const DaoProposalFrame = {
   frameImage: DaoFrameImage,
   frameButton: DaoButton,
   input: DaoInput,
 };
 
-export default DaoPreviewFrame;
+export default DaoProposalFrame;

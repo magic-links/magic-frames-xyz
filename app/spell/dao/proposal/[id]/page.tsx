@@ -15,6 +15,7 @@ import { DEFAULT_DEBUGGER_HUB_URL, createDebugUrl } from "../../../../debug";
 
 type State = {
   pageIndex: number;
+  spellId?: number;
 };
 
 const initialState: State = { pageIndex: 0 };
@@ -39,7 +40,7 @@ const getSpellById = (id: number) => {
     name: 'Fireball',
     content: {
       contractAddress: "0x94032F9dCDDe83CC748D588018E90a26bD8b57Ad",
-      proposalId: "44514336826816624890263576348868023866970862628880407364570922010546196358859",
+      proposalId: "2734038565809152965325796826027147483950341642058568409179168635425560537011",
       chainId: 8453,
       proposalSummary: "Vote for the latest Magic proposal!"
     }
@@ -69,7 +70,7 @@ export default async function Home({ params, searchParams }: NextServerPageProps
       >
         <FrameImage aspectRatio="1:1">
           <div tw="bg-purple-800 text-white w-full h-full justify-center items-center flex">
-            Transaction submitted! {frameMessage.transactionId}
+            Vote submitted!
           </div>
         </FrameImage>
         <FrameButton

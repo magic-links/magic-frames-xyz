@@ -1,26 +1,22 @@
-import { type State } from "../frames/route";
+import { FrameButton, FrameInput } from "frames.js/next/server";
+import { type State } from "../page";
 import { ReactNode } from "react";
-import { Button } from "frames.js/next";
 
-const DaoFrameImage = (state: State): ReactNode => {
+const DaoFrameImage = (state: State, previousFrame): ReactNode => {
   return (
     <div tw="flex flex-col">
       {/* <img width={573} height={300} src={imageUrl} alt="Image" /> */}
       <div tw="flex">DAO Contract: {state.contractAddress}</div>
       <div tw="flex">Proposal ID: {state.proposalId}</div>
-      <div tw="flex">Proposal Summary: {state.proposalSummary}</div>
+      <div tw="flex">Proposal Summary: {previousFrame.postBody.untrustedData.inputText}</div>
     </div>
   );
 };
 
-const DaoInput = undefined
+const DaoInput = null
 const DaoButton = (state: State) => {
-  return [
-    <Button key="submit-spell-create" action="post">
-      Create
-    </Button>,
-  ];
-};
+  return <FrameButton action="post">Create</FrameButton>;
+}
 
 const DaoPreviewFrame = {
   frameImage: DaoFrameImage,

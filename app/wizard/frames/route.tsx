@@ -9,7 +9,7 @@ import { ReactElement, ReactNode } from "react";
 import { Spell, storeSpell } from "../../storage.onchain";
 
 const frames = createFrames({
-  basePath: "/wizard-2/frames",
+  basePath: "/wizard/frames",
   
 });
 
@@ -154,13 +154,13 @@ const renderButton = (state: State): any => {
       DAO
     </Button>,
     <Button key="btn2" action="post">
-      DAO
+      NFT
     </Button>,
     <Button key="btn3" action="post">
-      DAO
+      DeFi
     </Button>,
     <Button key="btn4" action="post">
-      DAO
+      Memecoin
     </Button>,
   ];
 };

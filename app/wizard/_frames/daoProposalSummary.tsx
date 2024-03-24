@@ -1,8 +1,9 @@
 import { FrameButton, FrameInput } from "frames.js/next/server";
-import { type State } from "../page";
+import { type State } from "../frames/route";
 import { ReactNode } from "react";
+import { Button } from "frames.js/next";
 
-const DaoFrameImage = (state: State, previousFrame): ReactNode => {
+const DaoFrameImage = (state: State): ReactNode => {
   return (
     <div tw="flex flex-col">
       {/* <img width={573} height={300} src={imageUrl} alt="Image" /> */}
@@ -11,10 +12,14 @@ const DaoFrameImage = (state: State, previousFrame): ReactNode => {
   );
 };
 
-const DaoInput = <FrameInput text="Enter Proposal Summary"></FrameInput>;
+const DaoInput ="Enter Proposal Summary";
 const DaoButton = (state: State) => {
- return <FrameButton>OK</FrameButton>;
-}
+  return [
+    <Button key="submit-proposal-summary" action="post">
+      OK
+    </Button>,
+  ];
+};
 
 const DaoProposalFrame = {
   frameImage: DaoFrameImage,

@@ -1,9 +1,8 @@
 import { FrameButton, FrameInput } from "frames.js/next/server";
-import { type State } from "../frames/route";
+import { type State } from "../page";
 import { ReactNode } from "react";
-import { Button } from "frames.js/next";
 
-const DaoFrameImage = (state: State): ReactNode => {
+const DaoFrameImage = (state: State, previousFrame): ReactNode => {
   return (
     <div tw="flex flex-col">
       {/* <img width={573} height={300} src={imageUrl} alt="Image" /> */}
@@ -12,14 +11,10 @@ const DaoFrameImage = (state: State): ReactNode => {
   );
 };
 
-const DaoInput = "Enter Contract Address";
+const DaoInput = <FrameInput text="Enter Contract Address"></FrameInput>;
 const DaoButton = (state: State) => {
-  return [
-    <Button key="submit-contract-address" action="post">
-      OK
-    </Button>,
-  ];
-};
+  return <FrameButton>OK</FrameButton>;
+}
 
 const DaoContractFrame = {
   frameImage: DaoFrameImage,

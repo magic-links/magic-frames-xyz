@@ -1,8 +1,8 @@
-import { type State } from "../frames/route";
+import { FrameButton, FrameInput } from "frames.js/next/server";
+import { type State } from "../page";
 import { ReactNode } from "react";
-import { Button } from "frames.js/next";
 
-const DaoFrameImage = (state: State): ReactNode => {
+const DaoFrameImage = (state: State, previousFrame): ReactNode => {
   return (
     <div tw="flex flex-col">
       <div tw="flex">Spell Created</div>
@@ -12,17 +12,12 @@ const DaoFrameImage = (state: State): ReactNode => {
 };
 
 const DaoButton = (state: State) => {
-  return [
-    <Button key="spell-link" action="link" target={state.spellUrl || ""}>
-      OK
-    </Button>,
-  ];
-};
+  return <FrameButton action="link" target={state.spellUrl}>OK</FrameButton>;
+}
 
 const DaoSuccess = {
   frameImage: DaoFrameImage,
   frameButton: DaoButton,
-  input: undefined,
 };
 
 export default DaoSuccess;

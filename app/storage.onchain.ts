@@ -13,7 +13,6 @@ const contractAddress = process.env.STORAGE_CONTRACT_ADDRESS as `0x${string}`;
 
 
 export type Spell = {
-  id: number;
   name: string;
   content: {
     contractAddress: string;

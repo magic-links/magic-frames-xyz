@@ -130,11 +130,13 @@ export default async function Home({ searchParams }: NextServerPageProps) {
   let spellUrl = undefined;
   if (state.templateOption === "DAO_SUCCESS") {
     const spell: Spell = {
-        id: 123,
         name: "bar",
         content: {
-          contractAddress: "0x94032F9dCDDe83CC748D588018E90a26bD8b57Ad",
-          proposalId: "2734038565809152965325796826027147483950341642058568409179168635425560537011",
+          // these values are the only ones that work atm
+          // contractAddress: "0x94032F9dCDDe83CC748D588018E90a26bD8b57Ad",
+          // proposalId: "2734038565809152965325796826027147483950341642058568409179168635425560537011",
+          contractAddress: state.contractAddress,
+          proposalId: state.proposalId,
           chainId: 8453,
           proposalSummary: "best proposal this week!"
         }

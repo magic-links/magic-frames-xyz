@@ -26,7 +26,7 @@ export const getSpellById = async (id: string): Promise<Spell> => {
 
   const walletClient = createWalletClient({
     chain: hardhat,
-    transport: http('http://localhost:8545'),
+    transport: http('http://127.0.0.1:8545'),
   }).extend(publicActions);
 
   const result = await walletClient.readContract({
@@ -45,7 +45,7 @@ export const storeSpell = async (spell: Spell): Promise<string> => {
 
   const walletClient = createWalletClient({
     chain: hardhat,
-    transport: http('http://localhost:8545'),
+    transport: http('http://127.0.0.1:8545'),
   }).extend(publicActions);
 
   const account = privateKeyToAccount(privateKey);

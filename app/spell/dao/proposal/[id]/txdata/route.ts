@@ -10,6 +10,7 @@ import {
   http,
 } from "viem";
 import { daoProposalABI } from "./contracts/dao-proposal";
+import { getSpellById } from "../../../../../storage.onchain";
 
 // TODO to be replaced with actuall storage function
 // const getSpellById = (id: number) => {
@@ -24,30 +25,34 @@ import { daoProposalABI } from "./contracts/dao-proposal";
 //     }
 //   }
 // }
-const getSpellById = (id: number) => {
-  return {
-    id: 1,
-    name: 'Fireball',
-    content: {
-      contractAddress: "0x94032F9dCDDe83CC748D588018E90a26bD8b57Ad",
-      proposalId: "2734038565809152965325796826027147483950341642058568409179168635425560537011",
-      chainId: 8453,
-      proposalSummary: "Vote for the latest Magic proposal!"
-    }
-  }
-}
+// const getSpellById = (id: number) => {
+//   return {
+//     id: 1,
+//     name: 'Fireball',
+//     content: {
+//       contractAddress: "0x94032F9dCDDe83CC748D588018E90a26bD8b57Ad",
+//       proposalId: "2734038565809152965325796826027147483950341642058568409179168635425560537011",
+//       chainId: 8453,
+//       proposalSummary: "Vote for the latest Magic proposal!"
+//     }
+//   }
+// }
 
 export async function POST(
   req: NextRequest
 ): Promise<NextResponse<TransactionTargetResponse>> {
   const json = await req.json();
 
+  console.log({ req });
+
   const frameMessage = await getFrameMessage(json);
 
   const urlParse = json.untrustedData.url.split("/");
-  const spellId = urlParse[(urlParse.length-2)];
+  const spellId = urlParse[urlParse.length - 1];
 
-  const spellDetails = getSpellById(spellId);
+  console.log({ spellId });
+
+  const spellDetails = await getSpellById(spellId);
 
   if (!frameMessage) {
     throw new Error("No frame message");
@@ -55,21 +60,21 @@ export async function POST(
 
   //console.log(json)
 
-  const getVoteSupport = (buttonIndex) => {
+  const getVoteSupport = (buttonIndex:any) => {
     switch (buttonIndex) {
       case 1:
-        return 1
+        return 1;
       case 2:
-        return 0
+        return 0;
       case 3:
-        return 2
-    };
+        return 2;
+    }
   };
 
   var voteSupport = getVoteSupport(frameMessage.buttonIndex);
 
-  const proposalId = spellDetails.content.proposalId
-  const daoContractAddress = spellDetails.content.contractAddress
+  const proposalId = spellDetails.content.proposalId;
+  const daoContractAddress = spellDetails.content.contractAddress;
 
   const calldata = encodeFunctionData({
     abi: daoProposalABI,
@@ -84,7 +89,7 @@ export async function POST(
       abi: daoProposalABI as Abi,
       to: daoContractAddress,
       data: calldata,
-      value: 0,
+      value: '0',
     },
   });
 }

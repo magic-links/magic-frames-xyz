@@ -59,6 +59,6 @@ what is left:
 -[x] pass state of the summary
 -[x] store Spell to onchain
 -[x] read Spell from onchain
--[] record demo video
--[] complete submission form
+-[x] record demo video
+-[x] complete submission form
 

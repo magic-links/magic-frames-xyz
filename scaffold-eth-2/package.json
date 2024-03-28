@@ -18,6 +18,7 @@
     "compile": "yarn workspace @se-2/hardhat compile",
     "generate": "yarn workspace @se-2/hardhat generate",
     "flatten": "yarn workspace @se-2/hardhat flatten",
+    "hardhat:clean": "yarn workspace @se-2/hardhat clean",
     "hardhat:lint": "yarn workspace @se-2/hardhat lint",
     "hardhat:lint-staged": "yarn workspace @se-2/hardhat lint-staged",
     "hardhat:format": "yarn workspace @se-2/hardhat format",
@@ -36,6 +37,7 @@
   },
   "packageManager": "yarn@3.2.3",
   "devDependencies": {
+    "@openzeppelin/contracts": "^5.0.2",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3"
   }
